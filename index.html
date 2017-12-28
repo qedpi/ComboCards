@@ -49,16 +49,11 @@
                 <div id="expression-box">
                     <div class="jumbotron">
                         <button id="operation-box" class="btn btn-lg btn-secondary">{{cur_exp}} = {{cur_val}}</button>
+                        <p>{{ns}} & {{ops}}</p>
                     </div>
                 </div>
             </div>
         </div>
-        <ul>
-            <li v-for = "c in cards">{{c}}</li>
-        </ul>
-
-        <p>game started {{game_started}}</p>
-        <p v-hide>{{cards}}</p>
     </div>
 </body>
 </html>
@@ -71,7 +66,6 @@
             score: 0,
             aud: null,
 
-            ops: {0:'+', 1:'-', 2:'*', 3:'/'},
             op_symbols: {'+':'+', '-':'−', '*':'x', '/':'/'},
             logic_symbols: ['+', '-', '*', '/'],
             // assume infinite deck size
@@ -81,6 +75,8 @@
 
             hand: [],
             cur_exp: '',
+            ns: [],
+            ops: [],
         },
         methods: {
             play_audio(id){
@@ -107,6 +103,13 @@
             },
             add_to_exp(c){
                 this.cur_exp += c + ' ';
+                // add to appropriate list of numbers or symbols
+                // (this.logic_symbols.includes(c)? this.ops : this.ns).push(cs);
+                if (this.logic_symbols.includes(c)){
+                    this.ops.push(c);
+                } else {
+                    this.ns.push(String(c));
+                }
             },
         },
         computed: {
@@ -120,6 +123,9 @@
 
                 }
             },
+            exp_vals(){
+
+            }
         },
     });
 </script>
