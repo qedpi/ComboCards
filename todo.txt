@@ -1,3 +1,7 @@
  + solve game
- + change target value from scroll &  +/-
+ + change target value from scroll &  +/
+ + disable clicking nums in succession
+ + allow more cards
+ + customize ops
+ + customize rounds
  + multiplayer with chat
