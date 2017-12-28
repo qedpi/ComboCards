@@ -50,6 +50,7 @@
                     <div class="jumbotron">
                         <button id="operation-box" class="btn btn-lg btn-secondary">{{cur_exp}} = {{cur_val}}</button>
                         <p>{{ns}} & {{ops}}</p>
+                        <p v-hide v-cloak>{{exp_vals}}</p>
                     </div>
                 </div>
             </div>
@@ -99,6 +100,9 @@
             },
             start_round(){
                 this.hand = Array(4).fill().map(this.get_card);
+                this.ns = [];
+                this.ops = [];
+                this.cur_exp = '';
             },
             get_card(){
                 let cs = Object.keys(this.cards);
@@ -143,6 +147,12 @@
                 }
                 return n[p[p.length - 1]]
             },
+            win_round(){
+                this.score ++;
+                this.play_audio('audio_success');
+                alert('you win!');
+                this.start_round();
+            },
         },
         computed: {
             cards(){
@@ -167,7 +177,8 @@
                         let n = this.ns.slice();
                         let o = this.ops.slice();
                         if (this.check_perm(n, o, p) == this.target){
-                            alert('you win!');
+                            this.win_round();
+                            return;
                         }
                     }
                     alert('nope');
