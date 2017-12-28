@@ -32,8 +32,10 @@
                 <button class='btn btn-primary btn-lg' id="start_button" @click = "start_game" tabindex="1" autofocus> Start  </button>
             </div>
             <div v-else v-cloak>
-                <button class="btn btn-lg btn-secondary" id="score-counter">Score: {{score}}</button>
-
+                <div id="toolbar">
+                    <button class="btn btn-lg btn-secondary" id="score-counter">Score: {{score}}</button>
+                    <button class="btn btn-lg btn-secondary" id="target">target: {{target}}</button>
+                </div>
                 <div class="btn-group" role="group" aria-label="Control">
                     <div v-for = "symbol in logic_symbols" class="btn-group">
                         <button @click = "add_to_exp(symbol)" type="button" class="btn btn-primary btn-op btn-lg">
@@ -194,7 +196,7 @@
                             return;
                         }
                     }
-                    alert('nope');
+                    // alert('nope');
                 }
             },
         },

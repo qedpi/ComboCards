@@ -34,9 +34,20 @@ body {
     margin-top: 4em;
 }
 
-#score-counter {
+#toolbar {
     display: block;
+}
+
+#score-counter {
     margin-left: 2em;
+    display: inline-block;
+    float: left;
+}
+
+#target {
+    margin-right: 2em;
+    display: inline-block;
+    float: right;
 }
 
 #operation-box {
