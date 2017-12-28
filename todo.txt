@@ -1,0 +1,3 @@
+ + solve game
+ + change target value from scroll &  +/-
+ + multiplayer with chat
