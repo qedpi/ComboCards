@@ -52,7 +52,8 @@
                         <button id="operation-box" class="btn btn-lg btn-secondary">{{cur_exp}} = {{cur_val}}</button>
                         <!--<p>{{ns}} & {{ops}}</p>-->
                         <p v-cloak>{{exp_vals}}</p>
-                        <button @click = "skip_round()" class="btn btn-lg btn-warning float-right" id="skip">skip</button>
+                        <button @click = "reset_round()" class="btn btn-lg btn-warning float-right" id="reset">reset</button>
+                        <button @click = "skip_round()" class="btn btn-lg btn-danger float-right" id="skip">skip</button>
                     </div>
                 </div>
             </div>
@@ -103,6 +104,9 @@
             },
             start_round(){
                 this.hand = Array(4).fill().map(this.get_card);
+                this.reset_round();
+            },
+            reset_round(){
                 this.ns = [];
                 this.ops = [];
                 this.cur_exp = '';
