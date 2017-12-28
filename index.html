@@ -99,9 +99,16 @@
             },
             start_game(){
                 this.game_started = true;
-                this.val_j = 1;
-                this.val_q = 1;
-                this.val_k = 1;
+                let ruleset = 1;
+                if (ruleset == 1){
+                    this.val_j = 1;
+                    this.val_q = 1;
+                    this.val_k = 1;
+                } else {
+                    this.val_j = 11;
+                    this.val_q = 12;
+                    this.val_k = 13;
+                }
                 this.start_round();
             },
             start_round(){
