@@ -31,14 +31,13 @@
                 </div>
                 <button class='btn btn-primary btn-lg' id="start_button" @click = "start_game" tabindex="1" autofocus> Start  </button>
             </div>
-            <div v-else>
+            <div v-else v-cloak>
                 <button class="btn btn-lg btn-success" id="score-counter">Score: {{score}}</button>
 
                 <div class="btn-group" role="group" aria-label="Control">
-                    <button @click="toggle_op(0)" id="toggle-plus" type="button" class="btn btn-primary btn-op btn-lg">+</button>
-                    <button @click="toggle_op(1)" id="toggle-minus" type="button" class="btn btn-primary btn-op btn-lg">&#8722;</button>
-                    <button @click="toggle_op(2)" id="toggle-times" type="button" class="btn btn-primary btn-op btn-lg">x</button>
-                    <button @click="toggle_op(3)" id="toggle-divide" type="button" class="btn btn-primary btn-op btn-lg">/</button>
+                    <div v-for = "symbol in op_symbols" class="btn-group">
+                        <button type="button" class="btn btn-primary btn-op btn-lg">{{symbol}}</button>
+                    </div>
                 </div>
                 <br>
                 <div class="card-group btn-group" role="group">
@@ -67,7 +66,7 @@
             aud: null,
 
             ops: {0:'+', 1:'-', 2:'*', 3:'/'},
-            op_symbols: {'+':'+', '-':'−', '*':'⋅', '/':'/'},
+            op_symbols: {'+':'+', '-':'−', '*':'x', '/':'/'},
 
             // assume infinite deck size
             val_j: null,
