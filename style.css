@@ -5,3 +5,28 @@ body {
 .jumbotron {
     text-align: center;
 }
+
+.cards {
+    width: 4em;
+}
+
+.card-box {
+    display: inline;
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
+.btn-op {
+    margin-left: 1em;
+    margin-right: 1em;
+    width: 4em;
+}
+
+.card-group {
+    margin-top: 4em;
+}
+
+#score-counter {
+    display: block;
+    margin-left: 2em;
+}

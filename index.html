@@ -22,8 +22,6 @@
         <audio id="audio_buttons" src="https://www.soundjay.com/nature/sounds/flame-1.mp3" preload="auto"></audio>
     </div>
     <div id="app">
-        <button class="btn btn-lg btn-success pull-right">Score: {{score}}</button>
-
         <div class="jumbotron"> <!-- Introduction -->
             <div v-if = "!game_started">
                 <h1 id="game_title"> 24+ Game </h1>
@@ -34,9 +32,7 @@
                 <button class='btn btn-primary btn-lg' id="start_button" @click = "start_game" tabindex="1" autofocus> Start  </button>
             </div>
             <div v-else>
-                <div>
-
-                </div>
+                <button class="btn btn-lg btn-success" id="score-counter">Score: {{score}}</button>
 
                 <div class="btn-group" role="group" aria-label="Control">
                     <button @click="toggle_op(0)" id="toggle-plus" type="button" class="btn btn-primary btn-op btn-lg">+</button>
@@ -44,16 +40,20 @@
                     <button @click="toggle_op(2)" id="toggle-times" type="button" class="btn btn-primary btn-op btn-lg">x</button>
                     <button @click="toggle_op(3)" id="toggle-divide" type="button" class="btn btn-primary btn-op btn-lg">/</button>
                 </div>
+                <br>
+                <div class="card-group btn-group" role="group">
+                    <div v-for = "h in hand" class="card-box">
+                        <button class="cards btn btn-lg btn-success">{{h}}</button>
+                    </div>
+                </div>
             </div>
         </div>
         <ul>
             <li v-for = "c in cards">{{c}}</li>
         </ul>
-        <ol>
-            <li v-for = "h in hand">{{h}}</li>
-        </ol>
 
         <p>game started {{game_started}}</p>
+        <p v-hide>{{cards}}</p>
     </div>
 </body>
 </html>
@@ -70,9 +70,9 @@
             op_symbols: {'+':'+', '-':'−', '*':'⋅', '/':'/'},
 
             // assume infinite deck size
-            val_j: 1,
-            val_q: 1,
-            val_k: 1,
+            val_j: null,
+            val_q: null,
+            val_k: null,
 
             hand: [],
         },
@@ -85,14 +85,19 @@
             },
             start_game(){
                 this.game_started = true;
-                this.start_round()
+                this.val_j = 1;
+                this.val_q = 1;
+                this.val_k = 1;
+                this.start_round();
             },
             start_round(){
                 this.hand = Array(4).fill().map(this.get_card);
             },
             get_card(){
                 let cs = Object.keys(this.cards);
-                return this.cards[Math.floor(Math.random() * cs.length)];
+                let choose = Math.floor(Math.random() * cs.length) + 1;
+                // alert(choose);
+                return this.cards[choose];
             }
         },
         computed: {
