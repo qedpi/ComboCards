@@ -32,7 +32,7 @@
                 <button class='btn btn-primary btn-lg' id="start_button" @click = "start_game" tabindex="1" autofocus> Start  </button>
             </div>
             <div v-else v-cloak>
-                <button class="btn btn-lg btn-success" id="score-counter">Score: {{score}}</button>
+                <button class="btn btn-lg btn-secondary" id="score-counter">Score: {{score}}</button>
 
                 <div class="btn-group" role="group" aria-label="Control">
                     <div v-for = "symbol in logic_symbols" class="btn-group">
@@ -50,6 +50,7 @@
                     <div class="jumbotron">
                         <button id="operation-box" class="btn btn-lg btn-secondary">{{cur_exp}} = {{cur_val}}</button>
                         <p>{{ns}} & {{ops}}</p>
+                        <p v-cloak>{{exp_vals}}</p>
                     </div>
                 </div>
             </div>
@@ -77,6 +78,9 @@
             cur_exp: '',
             ns: [],
             ops: [],
+
+            perms4: [[0, 1, 2], [0, 2, 1], [1, 0, 2], [1, 2, 0], [2, 0, 1], [2, 1, 0]],
+            target: 24,
         },
         methods: {
             play_audio(id){
@@ -111,6 +115,33 @@
                     this.ns.push(String(c));
                 }
             },
+            permutations(ar){
+                if (ar.length == 1){
+                    return ar;
+                } else {
+                    return ar;
+                }
+            },
+            check_perm(n, o, p){
+                for (let i of p){
+                    let [x, y, op] = [parseInt(n[i]), parseInt(n[i + 1]), o[i]];
+                    let v = 0;
+                    // if division
+                    if (op == '/'){
+                        if (y == 0 || x % y != 0){
+                            // indivisible
+                            return -1
+                        } else {
+                            v = Math.floor(x / y);
+                        }
+                    } else {
+                        v = String(eval(String(x) + op + String(y)));
+                        n[i] = v;
+                        n[i + 1] = v;
+                    }
+                }
+                return n[p[p.length - 1]]
+            },
         },
         computed: {
             cards(){
@@ -118,14 +149,30 @@
             },
             cur_val(){
                 try {
-                    return eval(this.cur_exp);
+                    eval(this.cur_exp);
+                    return true;
                 } catch (e){
-
+                    return false;
                 }
             },
             exp_vals(){
+                if (this.cur_val && this.ops.length > 0){
+                    // alert("yay");
+                    let n = this.ops.length;
+                    let options = new Set();
 
-            }
+                    // for each possible order of operations
+                    for (let p of this.perms4){
+                        console.log(p);
+                        let n = this.ns.slice();
+                        let o = this.ops.slice();
+                        if (this.check_perm(n, o, p) == this.target){
+                            alert('you win!');
+                        }
+                    }
+                    alert('nope');
+                }
+            },
         },
     });
 </script>
