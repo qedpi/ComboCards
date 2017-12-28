@@ -35,14 +35,20 @@
                 <button class="btn btn-lg btn-success" id="score-counter">Score: {{score}}</button>
 
                 <div class="btn-group" role="group" aria-label="Control">
-                    <div v-for = "symbol in op_symbols" class="btn-group">
-                        <button type="button" class="btn btn-primary btn-op btn-lg">{{symbol}}</button>
+                    <div v-for = "symbol in logic_symbols" class="btn-group">
+                        <button @click = "add_to_exp(symbol)" type="button" class="btn btn-primary btn-op btn-lg">{{op_symbols[symbol]}}</button>
                     </div>
                 </div>
                 <br>
                 <div class="card-group btn-group" role="group">
                     <div v-for = "h in hand" class="card-box">
-                        <button class="cards btn btn-lg btn-success">{{h}}</button>
+                        <button @click = "add_to_exp(h)" class="cards btn btn-lg btn-success">{{h}}</button>
+                    </div>
+                </div>
+                <br>
+                <div id="expression-box">
+                    <div class="jumbotron">
+                        <button id="operation-box" class="btn btn-lg btn-secondary">{{cur_exp}} = {{cur_val}}</button>
                     </div>
                 </div>
             </div>
@@ -67,13 +73,14 @@
 
             ops: {0:'+', 1:'-', 2:'*', 3:'/'},
             op_symbols: {'+':'+', '-':'−', '*':'x', '/':'/'},
-
+            logic_symbols: ['+', '-', '*', '/'],
             // assume infinite deck size
             val_j: null,
             val_q: null,
             val_k: null,
 
             hand: [],
+            cur_exp: '',
         },
         methods: {
             play_audio(id){
@@ -97,11 +104,21 @@
                 let choose = Math.floor(Math.random() * cs.length) + 1;
                 // alert(choose);
                 return this.cards[choose];
-            }
+            },
+            add_to_exp(c){
+                this.cur_exp += c + ' ';
+            },
         },
         computed: {
             cards(){
                 return {1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8, 9:9, 10:10, 11:this.val_j, 12:this.val_q, 13:this.val_k};
+            },
+            cur_val(){
+                try {
+                    return eval(this.cur_exp);
+                } catch (e){
+
+                }
             },
         },
     });

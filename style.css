@@ -38,3 +38,7 @@ body {
     display: block;
     margin-left: 2em;
 }
+
+#operation-box {
+    font-size: 3em;
+}
