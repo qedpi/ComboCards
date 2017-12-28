@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ComboCards</title>
+
+    <!-- Bootstrap: Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+    <!-- Vue.js -->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+    <!-- Local Files -->
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <div class="audio_files">
+        <audio id="audio_success" src="https://www.soundjay.com/nature/sounds/water-droplet-1.mp3" preload="auto"></audio>
+        <audio id="audio_buttons" src="https://www.soundjay.com/nature/sounds/flame-1.mp3" preload="auto"></audio>
+    </div>
+    <div id="app">
+        <button class="btn btn-lg btn-success pull-right">Score: {{score}}</button>
+
+        <div class="jumbotron"> <!-- Introduction -->
+            <div v-if = "!game_started">
+                <h1 id="game_title"> 24+ Game </h1>
+                <br><br>
+                <div id="instructions">
+                    <p>practice mental agility in arithmetic</p>
+                </div>
+                <button class='btn btn-primary btn-lg' id="start_button" @click = "start_game" tabindex="1" autofocus> Start  </button>
+            </div>
+            <div v-else>
+                <div>
+
+                </div>
+
+                <div class="btn-group" role="group" aria-label="Control">
+                    <button @click="toggle_op(0)" id="toggle-plus" type="button" class="btn btn-primary btn-op btn-lg">+</button>
+                    <button @click="toggle_op(1)" id="toggle-minus" type="button" class="btn btn-primary btn-op btn-lg">&#8722;</button>
+                    <button @click="toggle_op(2)" id="toggle-times" type="button" class="btn btn-primary btn-op btn-lg">x</button>
+                    <button @click="toggle_op(3)" id="toggle-divide" type="button" class="btn btn-primary btn-op btn-lg">/</button>
+                </div>
+            </div>
+        </div>
+        <ul>
+            <li v-for = "c in cards">{{c}}</li>
+        </ul>
+        <ol>
+            <li v-for = "h in hand">{{h}}</li>
+        </ol>
+
+        <p>game started {{game_started}}</p>
+    </div>
+</body>
+</html>
+
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            game_started: false,
+            score: 0,
+            aud: null,
+
+            ops: {0:'+', 1:'-', 2:'*', 3:'/'},
+            op_symbols: {'+':'+', '-':'−', '*':'⋅', '/':'/'},
+
+            // assume infinite deck size
+            val_j: 1,
+            val_q: 1,
+            val_k: 1,
+
+            hand: [],
+        },
+        methods: {
+            play_audio(id){
+                this.aud = document.getElementById(id);
+                this.aud.pause();
+                this.aud.currentTime = 0;
+                this.aud.play();
+            },
+            start_game(){
+                this.game_started = true;
+                this.start_round()
+            },
+            start_round(){
+                this.hand = Array(4).fill().map(this.get_card);
+            },
+            get_card(){
+                let cs = Object.keys(this.cards);
+                return this.cards[Math.floor(Math.random() * cs.length)];
+            }
+        },
+        computed: {
+            cards(){
+                return {1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8, 9:9, 10:10, 11:this.val_j, 12:this.val_q, 13:this.val_k};
+            },
+        },
+    });
+</script>
