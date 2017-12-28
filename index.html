@@ -50,7 +50,6 @@
                     <div class="jumbotron">
                         <button id="operation-box" class="btn btn-lg btn-secondary">{{cur_exp}} = {{cur_val}}</button>
                         <p>{{ns}} & {{ops}}</p>
-                        <p v-cloak>{{exp_vals}}</p>
                     </div>
                 </div>
             </div>
@@ -81,6 +80,8 @@
 
             perms4: [[0, 1, 2], [0, 2, 1], [1, 0, 2], [1, 2, 0], [2, 0, 1], [2, 1, 0]],
             target: 24,
+
+            n_cards: 4,
         },
         methods: {
             play_audio(id){
@@ -149,14 +150,13 @@
             },
             cur_val(){
                 try {
-                    eval(this.cur_exp);
-                    return true;
+                    return eval(this.cur_exp);
                 } catch (e){
-                    return false;
+                    return null;
                 }
             },
             exp_vals(){
-                if (this.cur_val && this.ops.length > 0){
+                if (this.cur_val != null && this.ops.length == this.n_cards - 1 && this.ns.length == this.n_cards){
                     // alert("yay");
                     let n = this.ops.length;
                     let options = new Set();
