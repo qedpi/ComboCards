@@ -36,13 +36,14 @@
 
                 <div class="btn-group" role="group" aria-label="Control">
                     <div v-for = "symbol in logic_symbols" class="btn-group">
-                        <button @click = "add_to_exp(symbol)" type="button" class="btn btn-primary btn-op btn-lg">{{op_symbols[symbol]}}</button>
+                        <button @click = "add_to_exp(symbol)" type="button" class="btn btn-primary btn-op btn-lg">
+                            {{op_symbols[symbol]}}</button>
                     </div>
                 </div>
                 <br>
                 <div class="card-group btn-group" role="group">
-                    <div v-for = "h in hand" class="card-box">
-                        <button @click = "add_to_exp(h)" class="cards btn btn-lg btn-success">{{h}}</button>
+                    <div v-for = "(h, i) in hand" class="card-box">
+                        <button @click = "add_to_exp(h, i)" class="cards btn btn-lg btn-success" :disabled = "cards_used[i]">{{h}}</button>
                     </div>
                 </div>
                 <br>
@@ -84,6 +85,7 @@
             target: 24,
 
             n_cards: 4,
+            cards_used: null,
         },
         methods: {
             play_audio(id){
@@ -104,6 +106,7 @@
                 this.ns = [];
                 this.ops = [];
                 this.cur_exp = '';
+                this.cards_used = Array(this.n_cards).fill(false);
             },
             get_card(){
                 let cs = Object.keys(this.cards);
@@ -111,7 +114,8 @@
                 // alert(choose);
                 return this.cards[choose];
             },
-            add_to_exp(c){
+            add_to_exp(c, i){
+                this.cards_used[i] = true;
                 this.cur_exp += c + ' ';
                 // add to appropriate list of numbers or symbols
                 // (this.logic_symbols.includes(c)? this.ops : this.ns).push(cs);
