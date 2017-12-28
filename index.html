@@ -49,8 +49,9 @@
                 <div id="expression-box">
                     <div class="jumbotron">
                         <button id="operation-box" class="btn btn-lg btn-secondary">{{cur_exp}} = {{cur_val}}</button>
-                        <p>{{ns}} & {{ops}}</p>
-                        <p v-hide v-cloak>{{exp_vals}}</p>
+                        <!--<p>{{ns}} & {{ops}}</p>-->
+                        <p v-cloak>{{exp_vals}}</p>
+                        <button @click = "skip_round()" class="btn btn-lg btn-warning float-right" id="skip">skip</button>
                     </div>
                 </div>
             </div>
@@ -151,6 +152,10 @@
                 this.score ++;
                 this.play_audio('audio_success');
                 alert('you win!');
+                this.start_round();
+            },
+            skip_round(){
+                //todo: consequences for skipping round
                 this.start_round();
             },
         },
